@@ -50,8 +50,9 @@ export default function Home() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div className="relative min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white p-3 sm:p-6 lg:p-8 overflow-hidden selection:bg-green-500 selection:text-white flex items-center justify-center transition-colors duration-300">
+      <div className="relative min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white p-3 sm:p-6 lg:p-8 overflow-hidden selection:bg-green-500 selection:text-white flex items-center justify-center transition-colors duration-300">
       
+ 
       {/* Global Ambient Background Illumination Glows */}
       <div className="absolute top-[-10%] left-[-15%] w-[50vw] h-[50vw] bg-green-200/40 dark:bg-emerald-600/10 blur-[130px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-15%] w-[50vw] h-[50vw] bg-emerald-100/30 dark:bg-green-500/10 blur-[130px] rounded-full pointer-events-none" />

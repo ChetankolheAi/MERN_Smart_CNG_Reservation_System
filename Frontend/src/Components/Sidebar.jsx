@@ -18,7 +18,7 @@ import sidebarData from "../Data/sidebarData";
 
 
 export default function Sidebar() {
-  const [collapse, setCollapse] = useState(false);
+  const [collapse, setCollapse] = useState(true);
 const navigate = useNavigate();
  const user = JSON.parse(localStorage.getItem("user"));
 

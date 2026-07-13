@@ -1,12 +1,58 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Mail, Phone, Car, Lock, Eye, EyeOff } from "lucide-react";
-
+import api from "../api/api";
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
+const [formData, setFormData] = useState({
+  fullName: "",
+  email: "",
+  mobile: "",
+  vehicleNumber: "",
+  vehicleType: "",
+  password: "",
+  confirmPassword: "",
+});
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
 
+const handleSignup = async (e) => {
+  e.preventDefault();
+  try {
+
+    if (formData.password !== formData.confirmPassword) {
+      return alert("Passwords do not match");
+    }
+
+    const res = await api.post("/auth/signup", {
+      fullName: formData.fullName,
+      email: formData.email,
+      mobile: formData.mobile,
+      vehicleNumber: formData.vehicleNumber,
+      vehicleType: formData.vehicleType,
+      password: formData.password,
+    });
+console.log("Response:", res);
+    alert(res.data.message);
+
+    navigate("/login");
+
+  } catch (err) {
+    console.log(err);
+
+    alert(
+    err.response?.data?.message ||
+    err.message ||
+    "Signup Failed"
+    );
+  }
+};
   return (
     <div className="min-h-screen flex bg-green-50 dark:bg-slate-950 items-center justify-center p-4 transition-colors">
       <div className="w-full max-w-lg">
@@ -14,15 +60,21 @@ export default function Signup() {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Create Account</h2>
           <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">Register to continue</p>
 
-          <form className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+         <form
+            onSubmit={handleSignup}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"
+            >
             {/* Full Name */}
             <div className="sm:col-span-2">
               <label className="text-slate-600 dark:text-slate-400 text-xs font-medium">Full Name</label>
               <div className="mt-1.5 flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3">
                 <User className="text-slate-500 dark:text-slate-400" size={16} />
                 <input
-                  type="text"
-                  placeholder="Enter full name"
+                 type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Enter full name"
                   className="bg-transparent py-2.5 px-3 outline-none w-full text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
               </div>
@@ -35,7 +87,9 @@ export default function Signup() {
                 <Mail className="text-slate-500 dark:text-slate-400" size={16} />
                 <input
                   type="email"
-                  placeholder="Enter email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                   className="bg-transparent py-2.5 px-3 outline-none w-full text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
               </div>
@@ -47,8 +101,11 @@ export default function Signup() {
               <div className="mt-1.5 flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3">
                 <Phone className="text-slate-500 dark:text-slate-400" size={16} />
                 <input
-                  type="tel"
-                  placeholder="9876543210"
+                    type="tel"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    placeholder="9876543210"
                   className="bg-transparent py-2.5 px-3 outline-none w-full text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
               </div>
@@ -60,8 +117,11 @@ export default function Signup() {
               <div className="mt-1.5 flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3">
                 <Car className="text-slate-500 dark:text-slate-400" size={16} />
                 <input
-                  type="text"
-                  placeholder="MH12AB1234"
+                   type="text"
+                    name="vehicleNumber"
+                    value={formData.vehicleNumber}
+                    onChange={handleChange}
+                    placeholder="MH12AB1234"
                   className="bg-transparent py-2.5 px-3 outline-none w-full text-slate-900 dark:text-white text-sm uppercase placeholder:text-slate-400"
                 />
               </div>
@@ -70,7 +130,11 @@ export default function Signup() {
             {/* Vehicle Type */}
             <div className="sm:col-span-2">
               <label className="text-slate-600 dark:text-slate-400 text-xs font-medium">Vehicle Type</label>
-              <select className="mt-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-lg py-2.5 px-3 text-slate-900 dark:text-white text-sm outline-none border border-slate-200 dark:border-none appearance-none">
+              <select 
+                name="vehicleType"
+                value={formData.vehicleType}
+                onChange={handleChange}
+                className="mt-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-lg py-2.5 px-3 text-slate-900 dark:text-white text-sm outline-none border border-slate-200 dark:border-none appearance-none">
                 <option value="">Select Vehicle Type</option>
                 <option value="car">Car</option>
                 <option value="auto">Auto Rickshaw</option>
@@ -86,7 +150,10 @@ export default function Signup() {
                 <Lock className="text-slate-500 dark:text-slate-400" size={16} />
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Password"
                   className="bg-transparent py-2.5 px-3 outline-none w-full text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
                 <button
@@ -106,7 +173,10 @@ export default function Signup() {
                 <Lock className="text-slate-500 dark:text-slate-400" size={16} />
                 <input
                   type={showConfirm ? "text" : "password"}
-                  placeholder="Confirm Password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
                   className="bg-transparent py-2.5 px-3 outline-none w-full text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
                 <button
@@ -131,6 +201,7 @@ export default function Signup() {
             <button 
               type="submit" 
               className="sm:col-span-2 w-full mt-2 py-2.5 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors"
+                
             >
               Create Account
             </button>

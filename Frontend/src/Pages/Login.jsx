@@ -1,11 +1,49 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-
+import api from "../api/api";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+const [loginData, setLoginData] = useState({
+    email:"",
+    password:""
+});
+const handleChange=(e)=>{
 
+setLoginData({
+...loginData,
+[e.target.name]:e.target.value
+});
+
+}
+const handleLogin = async (e) => {
+  e.preventDefault();
+
+  try {
+
+    const res = await api.post("/auth/login", loginData);
+
+    localStorage.setItem("token", res.data.token);
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(res.data.user)
+    );
+
+    navigate("/");
+
+  } catch (err) {
+
+    alert(
+      err.response?.data?.message ||
+      err.message
+    );
+
+  }
+
+
+};
   return (
     <div className="min-h-screen flex bg-green-50 dark:bg-slate-950 items-center justify-center p-4 transition-colors">
       <div className="w-full max-w-md">
@@ -16,15 +54,18 @@ export default function Login() {
             <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">Login to your account</p>
           </div>
 
-          <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-6 space-y-4" onSubmit={handleLogin}>
             {/* Email Field */}
             <div>
               <label className="text-xs font-medium text-slate-600 dark:text-slate-400">Email Address</label>
               <div className="mt-1.5 flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3">
                 <Mail size={16} className="text-slate-500 dark:text-slate-400" />
                 <input
-                  type="email"
-                  placeholder="Enter email"
+                    type="email"
+                    name="email"
+                    value={loginData.email}
+                    onChange={handleChange}
+                    placeholder="Enter email"
                   className="bg-transparent w-full py-2.5 px-3 outline-none text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
               </div>
@@ -36,8 +77,11 @@ export default function Login() {
               <div className="mt-1.5 flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3">
                 <Lock size={16} className="text-slate-500 dark:text-slate-400" />
                 <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
+                   type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={loginData.password}
+                    onChange={handleChange}
+                    placeholder="Enter password"
                   className="bg-transparent w-full py-2.5 px-3 outline-none text-slate-900 dark:text-white text-sm placeholder:text-slate-400"
                 />
                 <button
