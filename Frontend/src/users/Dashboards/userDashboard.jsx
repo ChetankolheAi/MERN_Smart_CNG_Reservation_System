@@ -100,52 +100,57 @@ const currentData = getAllMonthsData(bookingData[selectedYear] || []);
         </div>
 
         {/* Main Chart */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-8">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-6">
-              Booking Frequency ({selectedYear})
-            </h3>
-            <div className="h-64 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={dashboard.chartData}>
-                  {/* Adds subtle background lines for better readability */}
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                  
-                  <XAxis 
-                    dataKey="name" 
-                    stroke="#94a3b8" 
-                    fontSize={12} 
-                    tickLine={false} 
-                    axisLine={false} 
-                  />
-                  <YAxis 
-                    stroke="#94a3b8" 
-                    fontSize={12} 
-                    tickLine={false} 
-                    axisLine={false} 
-                  />
-                  
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: 'none', 
-                      borderRadius: '8px', 
-                      color: '#fff' 
-                    }} 
-                  />
-                  
-                  {/* The Line component: 'monotone' makes it smooth instead of jagged */}
-                  <Line 
-                    type="monotone" 
-                    dataKey="bookings" 
-                    stroke="#22c55e" 
-                    strokeWidth={3} 
-                    dot={{ r: 4, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }} 
-                    activeDot={{ r: 6 }} 
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+        <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 w-full">
+  <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-6">
+    Bookings ({selectedYear})
+  </h3>
+  
+  {/* Reduced height to 200px for a more compact dashboard feel */}
+  <div className="h-[200px] w-full -ml-2">
+    <ResponsiveContainer width="100%" height="100%">
+      <LineChart data={dashboard.chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" className="dark:stroke-slate-800" />
+        
+        <XAxis 
+          dataKey="name" 
+          stroke="#94a3b8" 
+          fontSize={10} 
+          tickLine={false} 
+          axisLine={false}
+          // On mobile, show fewer labels to prevent overlap
+          interval="preserveStartEnd" 
+        />
+        
+        <YAxis 
+          stroke="#94a3b8" 
+          fontSize={10} 
+          tickLine={false} 
+          axisLine={false} 
+          width={25}
+        />
+        
+        <Tooltip 
+          contentStyle={{ 
+            backgroundColor: '#1e293b', 
+            border: 'none', 
+            borderRadius: '8px', 
+            fontSize: '12px',
+            color: '#fff' 
+          }} 
+        />
+        
+        <Line 
+          type="monotone" 
+          dataKey="bookings" 
+          stroke="#22c55e" 
+          strokeWidth={2} 
+          dot={{ r: 3, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }} 
+          activeDot={{ r: 5 }} 
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
+</div>
 
           </div>
       

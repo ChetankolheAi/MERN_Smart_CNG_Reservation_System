@@ -3,21 +3,17 @@ import { Navigate } from "react-router-dom";
 export default function OwnerRoute({ children }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // Guest can access
   if (!user) {
-    return children;
+    return <Navigate to="/login" replace />;
   }
 
-  // Redirect Owner
-  if (user.role === "user") {
+  if (user.role !== "owner") {
+    if (user.role === "admin") {
+      return <Navigate to="/admin-dashboard" replace />;
+    }
+
     return <Navigate to="/" replace />;
   }
 
-  // Redirect Admin
-  if (user.role === "admin") {
-    return <Navigate to="/adminDashboard" replace />;
-  }
-
-  // Normal User can access
   return children;
 }

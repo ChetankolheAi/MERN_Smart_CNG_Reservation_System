@@ -18,30 +18,58 @@ import sidebarData from "../Data/sidebarData";
 import toast from "react-hot-toast";
 
 
-export default function Sidebar() {
-  const [collapse, setCollapse] = useState(true);
-const navigate = useNavigate();
- const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
+export default function Sidebar({sidebarOpen,setSidebarOpen,collapse,setCollapse }) {
 
-    const handleLogout =()=>{
-        localStorage.removeItem("user");
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
-        localStorage.removeItem("token");
-        toast.success("Logout Successful") 
-        navigate("/login");
-    }
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    toast.success("Logout Successful");
+    setSidebarOpen(false);
+    navigate("/login");
+  };
   return (
+    <>
+       {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        />
+      )}
     <motion.div
-      animate={{
-        width: collapse ? 85 : 290,
+        initial={true}
+       animate={{
+        x:
+          window.innerWidth >= 1024
+            ? 0
+            : sidebarOpen
+            ? 0
+            : -320,
+
+        width:
+          window.innerWidth >= 1024
+            ? collapse
+              ? 90
+              : 280
+            : 280,
       }}
-      transition={{ duration: .3 }}
-      className="h-screen bg-slate-900 border-r border-slate-800 flex flex-col"
+        className="
+            fixed
+            lg:relative
+            top-0
+            left-0
+            z-50
+            h-screen
+            bg-slate-950
+            lg:translate-x-0
+            z-[111000]
+        "
     >
-      {/* Logo */}
-      
-      <div className="flex items-center justify-between px-5 py-4 border border-green-600 pb-5 border-l-0 border-r-0 border-t-0 mb-4">
+    
+      <div className="flex items-center justify-between px-5 py-4 border border-green-600 pb-5 border-l-0 border-r-0 border-t-0 mb-4 z-[1000]">
 
         {!collapse && (
          <div className="flex flex-col">
@@ -73,9 +101,12 @@ const navigate = useNavigate();
         </div>
 
         ) : ( 
-           <h1 className="flex items-center gap-2 text-2xl font-bold">
-          <Fuel className="w-7 h-7 text-green-500" />
-          <span className="text-black dark:text-white cursor-pointer" onClick={() => navigate("/")}>
+          <h1 className="flex items-center gap-2 text-xl sm:text-2xl font-bold whitespace-nowrap">
+          <Fuel className="w-6 h-6 sm:w-7 sm:h-7 text-green-500 flex-shrink-0" />
+          <span 
+            className="text-black dark:text-white cursor-pointer hover:opacity-80 transition-opacity" 
+            onClick={() => navigate("/")}
+          >
             BookMy<span className="text-green-500">CNG</span>
           </span>
         </h1>
@@ -90,7 +121,14 @@ const navigate = useNavigate();
     </div>
         )}
         <button
-        onClick={() => setCollapse(!collapse)}
+          onClick={() => {
+            if (window.innerWidth >= 1024) {
+              setCollapse(!collapse);
+            } else {
+              setSidebarOpen  (false);
+            }
+          }}
+          
         className="
             w-11 h-11
             flex items-center justify-center
@@ -104,14 +142,17 @@ const navigate = useNavigate();
             transition-all duration-300
         "
         >
-        {collapse ? <Menu size={20} /> : <ArrowLeft size={20} />}
+          {window.innerWidth >= 1024 ? (
+            collapse ? <Menu size={20} /> : <ArrowLeft size={20} />
+          ) : (
+            <ChevronLeft size={20} />
+          )}
         </button>
 
       </div>
 
    
 
-     
 
       {/* Menus */}
 
@@ -132,6 +173,7 @@ const navigate = useNavigate();
       <NavLink
         key={item.title}
         to={item.path}
+   
         className={({ isActive }) =>
           `flex items-center justify-between rounded-xl px-5 py-3 mb-2 transition-all duration-300 ${
             isActive
@@ -156,6 +198,7 @@ const navigate = useNavigate();
 </div>
 {!user?(<Link
   to="/login"
+  onClick={() => setMobileOpen(false)}
   className="
     mx-5 mt-4
     flex items-center justify-center gap-2
@@ -189,5 +232,6 @@ const navigate = useNavigate();
 )}
 
     </motion.div>
+    </>
   );
 }

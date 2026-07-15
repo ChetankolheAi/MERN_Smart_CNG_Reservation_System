@@ -71,43 +71,48 @@ export default function ScanQR() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center p-8">
-      <h1 className="text-2xl font-bold mb-6 dark:text-white">Scan Customer QR</h1>
-      
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-4">
-        <div id="reader" className="w-full"></div>
-        
-        <div className="flex gap-2 mt-4">
-          {/* Camera Button */}
-          <button
-            onClick={isScanning ? stopScanning : startScanning}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-white transition-colors ${
-              isScanning ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"
-            }`}
-          >
-            <Camera size={18} />
-            {isScanning ? "Stop Camera" : "Start Camera"}
-          </button>
+   <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center px-4 py-8">
+  <h1 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-wider">
+    Scan Customer QR
+  </h1>
+  
+  <div className="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-3 border border-slate-100 dark:border-slate-800">
+    {/* QR Scanner Container: maintains a square aspect ratio */}
+    <div id="reader" className="w-full aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-950"></div>
+    
+    <div className="flex gap-3 mt-4">
+      {/* Camera Button */}
+      <button
+        onClick={isScanning ? stopScanning : startScanning}
+        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white transition-all active:scale-[0.98] ${
+          isScanning 
+            ? "bg-red-500 hover:bg-red-600 shadow-lg shadow-red-500/20" 
+            : "bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/20"
+        }`}
+      >
+        <Camera size={18} />
+        {isScanning ? "Stop" : "Start"}
+      </button>
 
-          {/* Hidden File Input */}
-          <input 
-            type="file" 
-            accept="image/*" 
-            ref={fileInputRef} 
-            onChange={handleFileUpload} 
-            className="hidden" 
-          />
+      {/* Hidden File Input */}
+      <input 
+        type="file" 
+        accept="image/*" 
+        ref={fileInputRef} 
+        onChange={handleFileUpload} 
+        className="hidden" 
+      />
 
-          {/* Upload Button */}
-          <button
-            onClick={() => fileInputRef.current.click()}
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-300 transition-colors"
-          >
-            <Upload size={18} />
-            Upload File
-          </button>
-        </div>
-      </div>
+      {/* Upload Button */}
+      <button
+        onClick={() => fileInputRef.current.click()}
+        className="flex-1 flex items-center justify-center gap-2 py-4 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-[0.98]"
+      >
+        <Upload size={18} />
+        Upload
+      </button>
     </div>
+  </div>
+</div>
   );
 }

@@ -217,68 +217,54 @@ const currentStatus = getPumpStatus();
           </section>
 
           {/* Alert Banner */}
-          <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="p-6 rounded-2xl bg-white dark:bg-[#0b101d] border border-slate-200 dark:border-white/[0.08] flex justify-between items-center"
-            >
+         <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-[#0b101d] border border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row justify-between gap-6"
+          >
+            <div className="flex-1 min-w-0">
+              <h3 className="text-xl font-bold dark:text-white">Pump Availability</h3>
 
-              <div>
-
-                <h3 className="text-xl font-bold dark:text-white">
-                  Pump Availability
-                </h3>
-
-             {currentStatus.isCurrentlyOpen ? (
-
-                  <div className="mt-2">
-
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-sm font-semibold">
-                      🟢 Open
-                    </span>
-
+              {currentStatus.isCurrentlyOpen ? (
+                <div className="mt-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-sm font-semibold">
+                    🟢 Open
+                  </span>
+                </div>
+              ) : (
+                <div className="space-y-3 mt-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-sm font-semibold">
+                    🔴 Closed
+                  </span>
+                  
+                  {/* Responsive grid for status details */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
+                    <p className="text-sm text-slate-500 col-span-full">
+                      <strong className="text-slate-700 dark:text-slate-300">Reason:</strong> {pumpInfo?.closureReason}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      <strong className="text-slate-700 dark:text-slate-300">From:</strong>{" "}
+                      {pumpInfo?.closedFrom ? new Date(pumpInfo.closedFrom).toLocaleString("en-IN", { dateStyle: 'short', timeStyle: 'short' }) : "-"}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      <strong className="text-slate-700 dark:text-slate-300">To:</strong>{" "}
+                      {pumpInfo?.closedTo ? new Date(pumpInfo.closedTo).toLocaleString("en-IN", { dateStyle: 'short', timeStyle: 'short' }) : "-"}
+                    </p>
                   </div>
+                </div>
+              )}
+            </div>
 
-                ) : (
-
-                  <div className="space-y-2 mt-3">
-
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-sm font-semibold">
-                      🔴 Closed
-                    </span>
-
-                    <p className="text-sm text-slate-500">
-                      <strong>Reason:</strong> {pumpInfo?.closureReason}
-                    </p>
-
-                    <p className="text-sm text-slate-500">
-                      <strong>From:</strong>{" "}
-                      {pumpInfo?.closedFrom
-                        ? new Date(pumpInfo.closedFrom).toLocaleString("en-IN")
-                        : "-"}
-                    </p>
-
-                    <p className="text-sm text-slate-500">
-                      <strong>To:</strong>{" "}
-                      {pumpInfo?.closedTo
-                        ? new Date(pumpInfo.closedTo).toLocaleString("en-IN")
-                        : "-"}
-                    </p>
-
-                  </div>
-
-                )}
-
-              </div>
-
+            {/* Button container - fixed position on mobile or full width */}
+            <div className="sm:flex-none">
               <button
                 onClick={() => navigate("/managePump")}
-                className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-semibold transition"
+                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all active:scale-[0.98]"
               >
                 Change Status
               </button>
-
-            </motion.div>
+            </div>
+          </motion.div>
 
         </div>
       </div>

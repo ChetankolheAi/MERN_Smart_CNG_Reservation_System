@@ -85,7 +85,7 @@ const handleGetStarted = () => {
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] font-jos">
               Skip the CNG Queue. <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-700 via-emerald-600 to-emerald-500 dark:from-green-400 dark:via-emerald-400 dark:to-emerald-300 drop-shadow-[0_0_30px_rgba(74,222,128,0.2)]  font-Outfit">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-700 via-green-500 to-green-500 dark:from-green-400 dark:via-emerald-400 dark:to-emerald-300 drop-shadow-[0_0_30px_rgba(74,222,128,0.2)]  font-Outfit">
                 Book Your Slot.
               </span>
             </h1>
@@ -97,7 +97,7 @@ const handleGetStarted = () => {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={() => navigate(user ? "/bookingPage" : "/signup")}
-                className="group flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/20"
+                className="group flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-green-900 to-green-500 text-white font-semibold hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/20"
               >
                 {user ? (
                   "Book a Slot Now"

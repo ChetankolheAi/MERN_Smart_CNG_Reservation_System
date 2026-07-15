@@ -48,7 +48,8 @@ export default function App() {
           <Route path="findNearbyCNG" element={<UserRoute>
             <FindNearBYCNG />
             </UserRoute>} /> 
-          <Route path="bookingPage" element={<UserRoute>
+          <Route path="bookingPage" element={
+            <UserRoute>
             <BookingPage />
             </UserRoute>} />
           <Route path="userBookings" element={<UserRoute>

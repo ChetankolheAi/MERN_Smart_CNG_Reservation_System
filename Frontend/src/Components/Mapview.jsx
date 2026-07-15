@@ -122,13 +122,18 @@ export default function Mapview({ onSelectPump }) {
 
               <button
                 className="w-full bg-green-600 text-white py-2 rounded-lg"
-                onClick={() =>
-                  navigate("/bookingPage", {
-                    state: {
-                      pump,
-                    },
-                  })
-                }
+               onClick={() => {
+                  const isLoggedIn = localStorage.getItem("user"); // Or your auth context/state check
+
+                  if (isLoggedIn) {
+                    navigate("/bookingPage", {
+                      state: { pump },
+                    });
+                  } else {
+                    // Optionally pass the current route so you can redirect back after login
+                    navigate("/login", { state: { from: "/bookingPage", pump } });
+                  }
+                }}
               >
                 Book Now
               </button>

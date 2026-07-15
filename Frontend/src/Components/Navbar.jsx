@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
 import {
   Bell,
   Sun,
@@ -9,7 +10,7 @@ import {
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({ setSidebarOpen }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const [dark, setDark] = useState(
     localStorage.getItem("theme") === "dark"
@@ -32,18 +33,27 @@ const getHomePath = () => {
   return "/";
 };
   return (
-    <header className="h-16 px-8 flex items-center justify-between shadow-lg bg-gray-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white">
+    <header className="h-16 px-3 sm:px-5 lg:px-8 flex items-center justify-between shadow-lg bg-gray-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white">
       {/* Left: Logo & Navigation */}
       <div className="flex items-center gap-8">
-        <h1 className="flex items-center gap-2 text-2xl font-bold">
-          <Fuel className="w-7 h-7 text-green-500" />
-         <span 
-            className="text-black dark:text-white cursor-pointer font-bold text-xl" 
-            onClick={() => navigate(getHomePath())}
-          >
-            BookMy<span className="text-green-500">CNG</span>
-          </span>
-        </h1>
+            <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden"
+        >
+            <Menu size={26}/>
+        </button>
+      <h1 className="flex items-center gap-2 font-black">
+        <Fuel 
+          className="w-6 h-6 sm:w-7 sm:h-7 text-green-500 shrink-0" 
+        />
+        <span 
+          className="text-slate-900 dark:text-white cursor-pointer text-lg sm:text-xl md:text-2xl whitespace-nowrap" 
+          onClick={() => navigate(getHomePath())}
+        >
+          BookMy<span className="text-green-500">CNG</span>
+        </span>
+      </h1>
+    
         
         {/* Navigation Buttons */}
         {user?(
@@ -61,42 +71,68 @@ const getHomePath = () => {
 
       {/* Right: Tools & Auth */}
       <div className="flex items-center gap-5">
-        <button className="relative">
-          <Bell className="text-slate-900 dark:text-white" size={22} />
-          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
-            3
-          </span>
-        </button>
+       
 
-        <button
-          onClick={() => setDark(!dark)}
-          className="p-2 rounded-xl bg-slate-200 dark:bg-slate-700"
-        >
-          {dark ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
+     <button
+        onClick={() => setDark(!dark)}
+        className="
+          p-2
+          sm:p-2.5
+          rounded-lg
+          sm:rounded-xl
+          bg-slate-200 dark:bg-slate-700
+          hover:bg-slate-300 dark:hover:bg-slate-600
+          transition-all duration-300
+          flex items-center justify-center
+        "
+      >
+        {dark ? (
+          <Sun className="w-5 h-5 sm:w-6 sm:h-6" />
+        ) : (
+          <Moon className="w-5 h-5 sm:w-6 sm:h-6" />
+        )}
+      </button>
 
-        <button>
-          <Settings size={21} className="text-slate-900 dark:text-white" />
-        </button>
 
         {user ? (
-          <div className="flex items-center gap-3">
-            <img
-              src="https://i.pravatar.cc/100"
-              className="w-11 h-11 rounded-full border-2 border-green-400"
-              alt="Profile"
-            />
-            <div className="hidden md:block">
-              <h3 className="font-semibold">{user.fullName.split(" ")[0]}</h3>
-              <p className="text-xs text-slate-500">{user.role}</p>
-            </div>
+         <div className="flex items-center gap-2 sm:gap-3">
+          <img
+            src="https://i.pravatar.cc/100"
+            alt="Profile"
+            className="w-9 h-9 sm:w-11 sm:h-11 rounded-full border-2 border-green-400"
+          />
+
+          <div className="hidden sm:block">
+            <h3 className="font-semibold text-sm sm:text-base">
+              {user.fullName.split(" ")[0]}
+            </h3>
+            <p className="text-xs text-slate-500 capitalize">
+              {user.role}
+            </p>
           </div>
+        </div>
         ) : (
           <Link
             to="/login"
-            className="flex items-center justify-center gap-2 py-2 px-5 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold hover:scale-[1.03] transition-all duration-300 shadow-lg shadow-green-500/30"
+            className="
+              flex items-center justify-center gap-2
+              px-3 py-2
+              sm:px-5 sm:py-2.5
+              rounded-xl sm:rounded-2xl
+              bg-gradient-to-r from-green-500 to-emerald-600
+              text-white font-semibold
+              text-sm sm:text-base
+              hover:scale-105
+              transition-all duration-300
+              shadow-lg shadow-green-500/30
+              whitespace-nowrap
+            "
           >
-            <LogIn size={18} /> Join us
+            <LogIn size={18} className="sm:w-[18px] sm:h-[18px] w-5 h-5" />
+
+            <span className="hidden xs:inline">
+              Join us
+            </span>
           </Link>
         )}
       </div>
