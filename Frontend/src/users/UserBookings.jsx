@@ -85,7 +85,7 @@ export default function UserBookings() {
           ) : (
             <>
               {displayedBookings.map((b) => (
-                <div key={b.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+                <div key={b._id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
                   {/* ... same card content as before ... */}
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -105,22 +105,22 @@ export default function UserBookings() {
                     </div>
                   </div>
                   <div className="hidden">
-                    <QRCode id={`qr-${b.id}`} value={b.qrToken} size={160} />
+                    <QRCode id={`qr-${b._id}`} value={b.qrToken} size={160} />
                   </div>
                   <div className="flex gap-2 mt-4">
                     {b.status === "Pending" && (
-                      <button onClick={() => downloadQR(b.id, b.qrToken)} className="flex-1 py-2.5 bg-green-500 text-white rounded-lg text-xs font-bold hover:bg-green-600 transition-colors">
+                      <button onClick={() => downloadQR(b._id, b.qrToken)} className="flex-1 py-2.5 bg-green-500 text-white rounded-lg text-xs font-bold hover:bg-green-600 transition-colors">
                         Download QR Pass
                       </button>
                     )}
-                    <a href={`https://www.google.com/maps/dir/?api=1&destination=${b.ownerId.latitude},${b.ownerId.longitude}`} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold py-2.5 rounded-lg hover:bg-slate-200">
+                    <a href={`https://www.google.com/maps/dir/?api=1&destination=${b.latitude},${b.longitude}`} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold py-2.5 rounded-lg hover:bg-slate-200">
                       <Navigation size={14} /> Get Route
                     </a>
                   </div>
                 </div>
               ))}
 
-              {bookings.length > 6 && (
+              {bookings.length > 3 && (
                 <button
                   onClick={() => setShowAll(!showAll)}
                   className="w-full py-3 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
